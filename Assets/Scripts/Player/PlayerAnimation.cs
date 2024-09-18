@@ -18,6 +18,7 @@ public class PlayerAnimation : MonoBehaviour
     void Update()
     {
         OnMove();
+        OnCut();
     }
 
     #region Movement
@@ -52,6 +53,18 @@ public class PlayerAnimation : MonoBehaviour
         if (player.direction.x < 0)
         {
             transform.eulerAngles = new Vector2(0, 180);
+        }
+    }
+
+    #endregion
+
+    #region Actions
+
+    void OnCut()
+    {
+        if(player.isCutting)
+        {
+            animator.SetInteger("Transition", 3);
         }
     }
 

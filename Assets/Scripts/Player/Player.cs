@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     public bool isRolling { get { return _isRolling; } set { _isRolling = value; } }
     private bool _isRunning;
     public bool isRunning{ get { return _isRunning; } set { _isRunning = value; } }
+    private bool _isCutting;
+    public bool isCutting{ get { return _isCutting; } set { _isCutting = value; } }
     private float speed; 
     private Vector2 _direction;
     public Vector2 direction { get { return _direction; } set {  _direction = value; } }
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour
         OnInput();
         OnRun();
         OnRolling();
+        OnCutting();
     }
 
     private void FixedUpdate()
@@ -76,6 +79,24 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonUp(1))
         {
+            speed = initialSpeed;
+        }
+    }
+
+    #endregion
+
+    #region Actions
+
+    void OnCutting()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            isCutting = true;
+            speed = 0.5f;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            isCutting = false;
             speed = initialSpeed;
         }
     }

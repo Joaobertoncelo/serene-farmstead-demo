@@ -20,5 +20,17 @@ MonoBehaviour:
     profile: {fileID: 0}
     language:
       portuguese: Salve meu nobre
-      english: 
-      spanish: 
+      english: what's up bro?
+      spanish: "Hola cabr\xF3n"
+  - actorName: 
+    profile: {fileID: 0}
+    language:
+      portuguese: "Dia bonito n\xE9?"
+      english: "beaultiful day h\xE3n?"
+      spanish: "Qu\xE9 dia belo no?"
+  - actorName: 
+    profile: {fileID: 0}
+    language:
+      portuguese: Cabuloso
+      english: Nice
+      spanish: "Incre\xEDble"

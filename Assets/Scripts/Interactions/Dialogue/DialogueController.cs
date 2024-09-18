@@ -5,6 +5,16 @@ using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
+    [System.Serializable]
+    public enum idiom
+    {
+        pt,
+        eng,
+        spa
+    }
+
+    public idiom selectIdiom;
+ 
     [Header("Components")]
     public GameObject dialogueObject;
     public Image profileSprite;
@@ -20,6 +30,8 @@ public class DialogueController : MonoBehaviour
 
     public static DialogueController instance;
 
+    public bool IsShowingWindow { get => isShowingWindow; set => isShowingWindow = value; }
+
     private void Awake()
     {
         instance = this;
@@ -32,7 +44,7 @@ public class DialogueController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.E) && isShowingWindow)
+        if(Input.GetKeyUp(KeyCode.E) && IsShowingWindow)
         {
             NextSentence();
         }
@@ -62,7 +74,7 @@ public class DialogueController : MonoBehaviour
                 speechText.text = "";
                 index = 0;
                 dialogueObject.SetActive(false);
-                isShowingWindow = false;
+                IsShowingWindow = false;
                 sentences = null;
             }
         }
@@ -70,12 +82,12 @@ public class DialogueController : MonoBehaviour
 
     public void CallSpeech(string[] txt)
     {
-        if (!isShowingWindow)
+        if (!IsShowingWindow)
         {
             dialogueObject.SetActive(true);
             sentences = txt;
             StartCoroutine(TypeSentence());
-            isShowingWindow = true;
+            IsShowingWindow = true;
         }
     }
 }
