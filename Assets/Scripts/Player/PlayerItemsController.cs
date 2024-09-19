@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class PlayerItemsController : MonoBehaviour
 {
-    [SerializeField] private int totalWood;
+    [Header("Current Values")]
+    [SerializeField] private float currentWood;
+    [SerializeField] private float currentWater;
 
-    public int TotalWood { get => totalWood; set => totalWood = value; }
+    #region Properties
+    public float CurrentWood { get => currentWood; set => currentWood = value; }
+    public float CurrentWater { get => currentWater; set => currentWater = value; }
+    #endregion
 
-    void Start()
+    [Header("Limit Values")]
+    [SerializeField] private float waterLimit;
+
+    public void WaterLimit(float waterValue)
     {
-        
-    }
-
-    void Update()
-    {
-        
+        if(currentWater < waterLimit)
+        {
+            currentWater += waterValue;
+        }
     }
 }

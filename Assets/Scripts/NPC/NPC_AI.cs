@@ -51,7 +51,7 @@ public class NPC_AI : MonoBehaviour
         {
             transform.eulerAngles = new Vector2(0, 0);
         }
-        if(direction.y > 0)
+        if(direction.x < 0)
         {
             transform.eulerAngles = new Vector2(0, 180);
         }

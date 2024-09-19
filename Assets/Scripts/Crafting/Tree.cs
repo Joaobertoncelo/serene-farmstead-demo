@@ -31,9 +31,9 @@ public class Tree : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Axe"))
+        if (collision.CompareTag("Axe") && treeHealth > 0)
         {
-            OnHit();
+                OnHit();
         }
     }
 }

@@ -30,7 +30,7 @@ public class Wood : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerItemsController>().TotalWood++;
+            collision.GetComponent<PlayerItemsController>().CurrentWood++;
             Destroy(gameObject);
         }
     }
