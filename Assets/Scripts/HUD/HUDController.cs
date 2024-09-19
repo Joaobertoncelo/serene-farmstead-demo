@@ -5,18 +5,26 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
+    [Header("Itens")]
     [SerializeField] private Image waterUIBar;
     [SerializeField] private Image woodUIBar;
     [SerializeField] private Image carrotUIBar;
 
+    [Header("Tools")]
+    public List<Image> toolsUI = new List<Image>();
+
+    [SerializeField] private Color selectedToolColor;
+    [SerializeField] private Color notSelectedToolColor;
+
     private PlayerItemsController playerItemsController;
+    private Player player;
 
     private void Awake()
     {
         playerItemsController = FindObjectOfType<PlayerItemsController>();
+        player = playerItemsController.GetComponent<Player>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         waterUIBar.fillAmount = 0f;
@@ -24,9 +32,24 @@ public class HUDController : MonoBehaviour
         carrotUIBar.fillAmount = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        waterUIBar.fillAmount = playerItemsController.CurrentWater / playerItemsController.WaterLimit;
+        woodUIBar.fillAmount = playerItemsController.CurrentWood / playerItemsController.WoodLimit;
+        carrotUIBar.fillAmount = playerItemsController.CurrentCarrots / playerItemsController.CarrotLimit;
+
+        toolsUI[player.HandlingObject].color = selectedToolColor;
+
+        for (int i=0; i < toolsUI.Count; i++)
+        {
+            if (i == player.HandlingObject)
+            {
+                toolsUI[i].color = selectedToolColor;
+            }
+            else
+            {
+                toolsUI[i].color = notSelectedToolColor;
+            }
+        }
     }
 }

@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private bool _isWatering;
     private Vector2 _direction;
 
+    private int handlingObject;
+
     #region Properties
 
     public bool isRolling { get { return _isRolling; } set { _isRolling = value; } }
@@ -31,9 +33,9 @@ public class Player : MonoBehaviour
     public bool isWatering { get { return _isWatering; } set { _isWatering = value; } }
     public Vector2 direction { get { return _direction; } set {  _direction = value; } }
 
-    #endregion
+    public int HandlingObject { get => handlingObject; set => handlingObject = value; }
 
-    private int handlingObject;
+    #endregion
 
     private void Start()
     {
@@ -47,20 +49,20 @@ public class Player : MonoBehaviour
         //try "else if"
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            handlingObject = 0;
+            HandlingObject = 0;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            handlingObject = 1;
+            HandlingObject = 1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            handlingObject = 2;
+            HandlingObject = 2;
         }
         OnInput();
         OnRun();
         OnRolling();
-        switch(handlingObject)
+        switch(HandlingObject)
         {
             case 0:
                 OnCutting();

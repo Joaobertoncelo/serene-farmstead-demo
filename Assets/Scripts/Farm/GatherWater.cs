@@ -18,7 +18,7 @@ public class GatherWater : MonoBehaviour
     {
         if (detectingPlayer && Input.GetKeyDown(KeyCode.E))
         {
-            playerItemsController.WaterLimit(waterValue);
+            playerItemsController.WaterLimitation(waterValue);
         }
     }
 
