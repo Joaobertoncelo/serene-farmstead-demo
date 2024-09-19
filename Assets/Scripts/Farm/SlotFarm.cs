@@ -11,7 +11,40 @@ public class SlotFarm : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private int digAmount;
-    [SerializeField] private bool detecting;
+    [SerializeField] private bool detectingWater;
+    [SerializeField] private float waterAmount;
+
+    private float currentWater;
+    private bool dugHole;
+
+    PlayerItemsController playerItemsController;
+
+    private void Start()
+    {
+        playerItemsController = FindObjectOfType<PlayerItemsController>();
+    }
+    private void Update()
+    {
+        if (dugHole)
+        {
+            if (detectingWater)
+            {
+                currentWater += 0.01f;
+            }
+
+            if (currentWater >= waterAmount)
+            {
+                spriteRenderer.sprite = carrot;
+
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    spriteRenderer.sprite = hole;
+                    playerItemsController.CurrentCarrots++;
+                    currentWater = 0f;
+                }
+            }
+        }        
+    }
 
     public void OnHit()
     {
@@ -20,12 +53,8 @@ public class SlotFarm : MonoBehaviour
         if (digAmount <= 0)
         {
             spriteRenderer.sprite = hole;
+            dugHole = true;
         }
-
-        //if (digAmount <= 0)
-        //{
-        //spriteRenderer.sprite = carrot;
-        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -37,7 +66,7 @@ public class SlotFarm : MonoBehaviour
         
         if (collision.CompareTag("Water"))
         {
-            detecting = true;
+            detectingWater = true;
         }
 
     }
@@ -46,7 +75,7 @@ public class SlotFarm : MonoBehaviour
     {
         if (collision.CompareTag("Water"))
         {
-            detecting = false;
+            detectingWater = false;
         }
     }
 }
