@@ -24,11 +24,17 @@ public class GatherWater : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        detectingPlayer = true;
+        if (collision.CompareTag("Player"))
+        {
+            detectingPlayer = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        detectingPlayer = false;
+        if (collision.CompareTag("Player"))
+        {
+            detectingPlayer = false;
+        }
     }
 }

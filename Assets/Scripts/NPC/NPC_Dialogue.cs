@@ -12,7 +12,9 @@ public class NPC_Dialogue : MonoBehaviour
     bool playerHit;
 
     private List<string> sentences = new List<string>();
-    
+    private List<string> actorName = new List<string>();
+    private List<Sprite> actorSprite = new List<Sprite>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,7 @@ public class NPC_Dialogue : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && playerHit)
         {
-            DialogueController.instance.CallSpeech(sentences.ToArray());
+            DialogueController.instance.CallSpeech(sentences.ToArray(), actorName.ToArray(), actorSprite.ToArray());
         }
     }
 
@@ -44,6 +46,10 @@ public class NPC_Dialogue : MonoBehaviour
                     break;
 
             }
+
+            actorName.Add(currentDialogue.dialogues[i].actorName);
+            actorSprite.Add(currentDialogue.dialogues[i].profile);
+
         }
     }
 

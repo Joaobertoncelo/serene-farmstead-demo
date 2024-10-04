@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class SlotFarm : MonoBehaviour
 {
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip holeSFX;
+    [SerializeField] private AudioClip carrotSFX;
+
     [Header("Components")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite hole;
@@ -16,6 +21,8 @@ public class SlotFarm : MonoBehaviour
 
     private float currentWater;
     private bool dugHole;
+    private bool plantedCarrot;
+    private bool playerDetected;
 
     PlayerItemsController playerItemsController;
 
@@ -32,16 +39,20 @@ public class SlotFarm : MonoBehaviour
                 currentWater += 0.01f;
             }
 
-            if (currentWater >= waterAmount)
+            if (currentWater >= waterAmount && !plantedCarrot)
             {
+                audioSource.PlayOneShot(holeSFX);
                 spriteRenderer.sprite = carrot;
+                plantedCarrot = true;
+            }
 
-                if(Input.GetKeyDown(KeyCode.E))
-                {
-                    spriteRenderer.sprite = hole;
-                    playerItemsController.CurrentCarrots++;
-                    currentWater = 0f;
-                }
+            if (Input.GetKeyDown(KeyCode.E) && plantedCarrot && playerDetected)
+            {
+                audioSource.PlayOneShot(carrotSFX);
+                spriteRenderer.sprite = hole;
+                playerItemsController.CurrentCarrots++;
+                currentWater = 0f;
+                plantedCarrot = false;
             }
         }        
     }
@@ -69,6 +80,10 @@ public class SlotFarm : MonoBehaviour
             detectingWater = true;
         }
 
+        if (collision.CompareTag("Player"))
+        {
+            playerDetected = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -76,6 +91,11 @@ public class SlotFarm : MonoBehaviour
         if (collision.CompareTag("Water"))
         {
             detectingWater = false;
+        }
+
+        if (collision.CompareTag("Player"))
+        {
+            playerDetected = false;
         }
     }
 }

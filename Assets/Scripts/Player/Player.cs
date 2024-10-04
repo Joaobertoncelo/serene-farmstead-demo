@@ -4,9 +4,12 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public bool isPaused;
+
     [SerializeField] private float initialSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float rollSpeed;
@@ -46,39 +49,63 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        //try "else if"
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (!isPaused)
         {
-            HandlingObject = 0;
+            //try "else if"
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                HandlingObject = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                HandlingObject = 1;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                HandlingObject = 2;
+            }
+            OnInput();
+            OnRun();
+            OnRolling();
+            //Need to fix changing tools problem
+            switch (HandlingObject)
+            {
+                case 0:
+                    OnCutting();
+                    if (HandlingObject != 0)
+                    {
+                        isCutting = false;
+                    }
+                    break;
+                case 1:
+                    OnDigging();
+                    if (HandlingObject != 1)
+                    {
+                        isDigging = false;
+                    }
+                    break;
+                case 2:
+                    OnWatering();
+                    if (HandlingObject != 2)
+                    {
+                        isWatering = false;
+                    }
+                    break;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            HandlingObject = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            HandlingObject = 2;
-        }
-        OnInput();
-        OnRun();
-        OnRolling();
-        switch(HandlingObject)
-        {
-            case 0:
-                OnCutting();
-                break;
-            case 1:
-                OnDigging();
-                break;
-            case 2:
-                OnWatering();
-                break;
-        }
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    SceneManager.LoadScene("test");
+        //}
     }
 
     private void FixedUpdate()
     {
-        OnMove();
+        if(!isPaused)
+        {
+            OnMove();
+        }
     }
 
     #region Movement
@@ -153,6 +180,7 @@ public class Player : MonoBehaviour
             isDigging = false;
             speed = initialSpeed;
         }
+        
     }
     
     void OnWatering()
@@ -171,6 +199,7 @@ public class Player : MonoBehaviour
         {
             playerItemsController.CurrentWater -= 0.01f;
         }
+        
     }
 
 

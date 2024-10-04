@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
+    [Header("Attack Settings")]
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float radius;
+    [SerializeField] private LayerMask enemyLayer;
+
     private Player player;
     private Animator animator;
+    private CastingArea castingArea;
+
+    private bool isHurt;
+    private float recoveryTime = 1.5f;
+    private float timeCount;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<Player>();
         animator = GetComponent<Animator>();
+        castingArea = FindObjectOfType<CastingArea>();
     }
 
     // Update is called once per frame
@@ -21,6 +32,17 @@ public class PlayerAnimation : MonoBehaviour
         OnCut();
         OnDigging();
         OnWatering();
+        
+        if(isHurt)
+        {
+            timeCount += Time.deltaTime;
+
+            if (timeCount >= recoveryTime)
+            {
+                isHurt = false;
+                timeCount = 0f;
+            }
+        }
     }
 
     #region Movement
@@ -28,7 +50,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (player.direction.sqrMagnitude > 0)
         {
-            if (player.isRolling)
+            if (player.isRolling && !animator.GetCurrentAnimatorStateInfo(0).IsName("Roll"))
             {
                 animator.SetTrigger("Roll");
                 player.isRolling = false;
@@ -86,7 +108,55 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
+    public void OnCastingStarted()
+    {
+        animator.SetTrigger("Casting");
+        player.isPaused = true;
+    }
+
+    public void OnCastingStopped()
+    {
+        castingArea.OnCasting();
+        player.isPaused = false;
+    }
+
+    public void OnHammeringStarted()
+    {
+        animator.SetBool("Hammering", true);
+    }
+
+    public void OnHammeringEnded()
+    {
+        animator.SetBool("Hammering", false);
+    }
     
+    public void OnHurt()
+    {
+        if (!isHurt)
+        {
+            animator.SetTrigger("Hurt");
+            isHurt = true;
+        }
+    }
+
+    #endregion
+
+    #region Battle
+
+    public void OnAttack()
+    {
+        Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, radius, enemyLayer);
+
+        if (hit != null)
+        {
+            hit.GetComponentInChildren<SkeletonAnimationControl>().OnHurt();
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(attackPoint.position, radius);
+    }
 
     #endregion
 }

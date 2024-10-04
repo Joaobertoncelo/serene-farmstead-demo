@@ -27,7 +27,10 @@ public class DialogueController : MonoBehaviour
     private bool isShowingWindow;
     private int index;
     private string[] sentences;
+    private string[] currentActorName;
+    private Sprite[] currentActorProfile;
 
+    private Player player;
     public static DialogueController instance;
 
     public bool IsShowingWindow { get => isShowingWindow; set => isShowingWindow = value; }
@@ -39,7 +42,7 @@ public class DialogueController : MonoBehaviour
 
     void Start()
     {
-        
+        player = FindObjectOfType<Player>();
     }
 
     void Update()
@@ -66,6 +69,8 @@ public class DialogueController : MonoBehaviour
             if (index < sentences.Length - 1)
             {
                 index++;
+                profileSprite.sprite = currentActorProfile[index];
+                actorNameText.text = currentActorName[index];
                 speechText.text = "";
                 StartCoroutine(TypeSentence());
             }
@@ -76,18 +81,24 @@ public class DialogueController : MonoBehaviour
                 dialogueObject.SetActive(false);
                 IsShowingWindow = false;
                 sentences = null;
+                player.isPaused = false;
             }
         }
     }
 
-    public void CallSpeech(string[] txt)
+    public void CallSpeech(string[] txt, string[] actorName, Sprite[] actorProfile)
     {
         if (!IsShowingWindow)
         {
             dialogueObject.SetActive(true);
             sentences = txt;
+            currentActorName = actorName;
+            currentActorProfile = actorProfile;
+            profileSprite.sprite = currentActorProfile[index];
+            actorNameText.text = currentActorName[index];
             StartCoroutine(TypeSentence());
             IsShowingWindow = true;
+            player.isPaused = true;
         }
     }
 }

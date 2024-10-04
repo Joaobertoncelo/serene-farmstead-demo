@@ -16,20 +16,20 @@ MonoBehaviour:
   speakerSprite: {fileID: 0}
   sentence: 
   dialogues:
-  - actorName: 
-    profile: {fileID: 0}
+  - actorName: Cleitinho
+    profile: {fileID: 21300000, guid: 37b4f81f2ec0b3845a6b167d664990e5, type: 3}
     language:
       portuguese: Salve meu nobre
       english: what's up bro?
       spanish: "Hola cabr\xF3n"
-  - actorName: 
-    profile: {fileID: 0}
+  - actorName: "Her\xF3i"
+    profile: {fileID: 21300000, guid: 20d5aaff0ca25c5428a1e6ea7c60711f, type: 3}
     language:
       portuguese: "Dia bonito n\xE9?"
       english: "beaultiful day h\xE3n?"
       spanish: "Qu\xE9 dia belo no?"
-  - actorName: 
-    profile: {fileID: 0}
+  - actorName: Cleitinho
+    profile: {fileID: 21300000, guid: 37b4f81f2ec0b3845a6b167d664990e5, type: 3}
     language:
       portuguese: Cabuloso
       english: Nice
